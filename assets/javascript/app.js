@@ -32,12 +32,13 @@ var questionIterator;
 var answerTimeSec = 3;
 var timer = answerTimeSec;
 var countdownIterator;
+//var finalCountdown;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
   
   // We slice the item out of the total array, leaving remaining behind
-  return quesList.splice(randValue, 1);
+  return quesList.splice(randValue, 1)[0];
 }
 
 function randomizeArray(array) {
@@ -82,20 +83,29 @@ function buildQuestion(questionObj) {
 
 function nextQuestion() {
 
-  randQuesObj = randomQuestion(questionsList)[0];
+  randQuesObj = randomQuestion(questionsList);
   buildQuestion(randQuesObj);
   timer = answerTimeSec;
   $('#header').html(timer);
 
   if (questionsList.length === 0){
     clearInterval(questionIterator);
-    clearInterval(countdownIterator);
   }
 }
 
 function countDown() {
   timer--;
   $('#header').html(timer);
+
+  if(questionsList.length === 0){
+
+    function finalCountdown() {
+      clearInterval(countdownIterator);
+    }
+
+    setTimeout(finalCountdown, timer * 1000);
+  }
+
 }
 
 $(document).ready(function () {
