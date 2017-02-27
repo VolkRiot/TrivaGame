@@ -29,7 +29,7 @@ var questionsList = [
 var questionIterator;
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 3;
+var answerTimeSec = 60;
 var timer = answerTimeSec;
 var countdownIterator;
 //var finalCountdown;
@@ -58,6 +58,7 @@ function buildAnswer(answer) {
   var answerBox = $('<label class="radio">');
   var radioButton = $('<input type="radio" />');
   radioButton.attr('name', 'inlineRadioOptions');
+  radioButton.attr('class', 'answer-choices');
   answerBox.append(radioButton);
 
   answerBox.append(answer);
@@ -111,8 +112,14 @@ function countDown() {
 }
 
 $(document).ready(function () {
-  
+
   nextQuestion();
   questionIterator = setInterval(nextQuestion, answerTimeSec * 1000);
+
+  $(".questions-container").on('click', '.answer-choices', function () {
+
+    nextQuestion();
+
+  });
 
 });
