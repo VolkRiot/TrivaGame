@@ -83,10 +83,12 @@ function buildQuestion(questionObj) {
 
 function nextQuestion() {
 
+  clearInterval(countdownIterator);
   randQuesObj = randomQuestion(questionsList);
   buildQuestion(randQuesObj);
   timer = answerTimeSec;
   $('#header').html(timer);
+  countdownIterator = setInterval(countDown, 1000);
 
   if (questionsList.length === 0){
     clearInterval(questionIterator);
@@ -109,9 +111,7 @@ function countDown() {
 }
 
 $(document).ready(function () {
-
-  countdownIterator = setInterval(countDown, 1000);
-
+  
   nextQuestion();
   questionIterator = setInterval(nextQuestion, answerTimeSec * 1000);
 
