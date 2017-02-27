@@ -17,6 +17,18 @@ function randomQuestion() {
   return questionsList[Math.floor(Math.random() * questionsList.length)];
 }
 
+function randomizeArray(array) {
+
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+
+}
+
 function buildAnswer(answer) {
 
   var answerBox = $('<label class="radio">');
@@ -32,16 +44,16 @@ function buildAnswer(answer) {
 
 function buildQuestion() {
   var questionObj = randomQuestion();
+  var answersArray = randomizeArray(questionObj.answers);
 
   $('#question-well').html(questionObj.questionMain);
-  $('#question-box1').empty();
-  $('#question-box2').empty();
+  $('.questions-container').empty();
 
 
-  for(var i = 0; i < questionObj.answers.length/2; i++){
+  for(var i = 0; i < answersArray.length/2; i++){
 
-    $('#question-box1').append(buildAnswer(questionObj.answers[i]));
-    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2]))
+    $('#question-box1').append(buildAnswer(questionObj.answers[i], i));
+    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2], i + 2))
 
   }
 
