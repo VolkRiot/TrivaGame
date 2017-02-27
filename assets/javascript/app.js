@@ -126,6 +126,11 @@ function countDown() {
 
 }
 
+function stopTime() {
+  clearTimeout(nextQTimer);
+  clearInterval(countdownIterator);
+}
+
 $(document).ready(function () {
 
   nextQuestion();
