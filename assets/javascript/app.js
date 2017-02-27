@@ -29,27 +29,28 @@ var questionsList = [
 var lastQuestion = false;
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 3;
+var answerTimeSec = 60;
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
+var currentQuestion;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
   
-  // We slice the item out of the total array, leaving remaining behind
+  // We splice the item out of the total array, leaving remaining behind
   return quesList.splice(randValue, 1)[0];
 }
 
 function randomizeArray(array) {
 
+  var randArray = [];
+
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    randArray.push(array[j]);
   }
-  return array;
+  return randArray;
 
 }
 
@@ -59,6 +60,7 @@ function buildAnswer(answer) {
   var radioButton = $('<input type="radio" />');
   radioButton.attr('name', 'inlineRadioOptions');
   radioButton.attr('class', 'answer-choices');
+  radioButton.attr('data-index', currentQuestion.answers.indexOf(answer));
   answerBox.append(radioButton);
 
   answerBox.append(answer);
@@ -69,15 +71,18 @@ function buildAnswer(answer) {
 
 function buildQuestion(questionObj) {
   var answersArray = randomizeArray(questionObj.answers);
+  var mainQuestion = $("<p>");
 
-  $('#question-well').html(questionObj.questionMain);
+  mainQuestion.html(questionObj.questionMain);
+
+  $('#question-well').html(mainQuestion);
   $('.questions-container').empty();
 
 
   for(var i = 0; i < answersArray.length/2; i++){
 
-    $('#question-box1').append(buildAnswer(questionObj.answers[i], i));
-    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2], i + 2))
+    $('#question-box1').append(buildAnswer(questionObj.answers[i]));
+    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2]))
 
   }
 }
@@ -85,14 +90,13 @@ function buildQuestion(questionObj) {
 function nextQuestion() {
 
   if(!lastQuestion) {
-    randQuesObj = randomQuestion(questionsList);
-    buildQuestion(randQuesObj);
+    currentQuestion = randomQuestion(questionsList);
+    buildQuestion(currentQuestion);
     clearTimeout(nextQTimer);
     countDown();
   }
 
   $('#header').html(timer);
-
 
 }
 
@@ -128,7 +132,13 @@ $(document).ready(function () {
 
   $(".questions-container").on('click', '.answer-choices', function () {
 
-    nextQuestion();
+
+    if($(this).attr('data-index') == currentQuestion.correctIndex){
+      nextQuestion();
+    }
+
+
+
 
   });
 
