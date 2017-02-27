@@ -16,8 +16,11 @@ var questionsList = [
   }
 ];
 
-function randomQuestion(questionObj) {
-  return questionObj[Math.floor(Math.random() * questionObj.length)];
+function randomQuestion(quesList) {
+  var randValue = Math.floor(Math.random() * quesList.length);
+  
+  // We slice the item out of the total array, leaving remaining behind
+  return quesList.splice(randValue, 1);
 }
 
 function randomizeArray(array) {
@@ -63,10 +66,10 @@ function buildQuestion(questionObj) {
 
 $(document).ready(function () {
 
+  randQuesObj = randomQuestion(questionsList)[0];
 
+  buildQuestion(randQuesObj);
 
-  buildQuestion(randomQuestion(questionsList));
-
-
+  
 
 });
