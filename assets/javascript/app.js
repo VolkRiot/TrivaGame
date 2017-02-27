@@ -1,20 +1,23 @@
 var questionsList = [
   {
-    questionMain: "This is a questionMain?",
-    answers: ["Answer1", "Answer2", "Answer3", "Answer4"]
+    questionMain: "This is a question?",
+    answers: ["Answer1", "Answer2", "RightAnswer", "Answer4"],
+    correctIndex: 2
   },
   {
-    questionMain: "Here is another questionMain? Possibly?",
-    answers: ["Answer1", "Answer2", "Answer3", "Answer4"]
+    questionMain: "Here is another question? Possibly?",
+    answers: ["RightAnswer", "Answer2", "Answer3", "Answer4"],
+    correctIndex: 0
   },
   {
     questionMain: "Ok, let's just pretend that these here are real questions. Ok?",
-    answers: ["Answer1", "Answer2", "Answer3", "Answer4"]
+    answers: ["Answer1", "Answer2", "Answer3", "RightAnswer"],
+    correctIndex: 3
   }
 ];
 
-function randomQuestion() {
-  return questionsList[Math.floor(Math.random() * questionsList.length)];
+function randomQuestion(questionObj) {
+  return questionObj[Math.floor(Math.random() * questionObj.length)];
 }
 
 function randomizeArray(array) {
@@ -42,8 +45,7 @@ function buildAnswer(answer) {
 
 }
 
-function buildQuestion() {
-  var questionObj = randomQuestion();
+function buildQuestion(questionObj) {
   var answersArray = randomizeArray(questionObj.answers);
 
   $('#question-well').html(questionObj.questionMain);
@@ -56,13 +58,14 @@ function buildQuestion() {
     $('#question-box2').append(buildAnswer(questionObj.answers[i + 2], i + 2))
 
   }
-
 }
 
 
 $(document).ready(function () {
 
-  buildQuestion();
+
+
+  buildQuestion(randomQuestion(questionsList));
 
 
 
