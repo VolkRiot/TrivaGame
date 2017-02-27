@@ -20,11 +20,11 @@ function randomQuestion() {
 function buildAnswer(answer) {
 
   var answerBox = $('<label class="checkbox">');
-  answerBox.append("<input type='checkbox'>").text(answer);
+  answerBox.append($('<input type="checkbox"/>'));
+  answerBox.append(answer);
 
   return answerBox;
-
-  //<input type="checkbox" id="inlineCheckbox1" value="option1"> Internals
+  
 }
 
 function buildQuestion() {
