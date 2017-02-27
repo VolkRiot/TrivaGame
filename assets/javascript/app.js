@@ -13,10 +13,23 @@ var questionsList = [
     questionMain: "Ok, let's just pretend that these here are real questions. Ok?",
     answers: ["Answer1", "Answer2", "Answer3", "RightAnswer"],
     correctIndex: 3
+  },
+  {
+    questionMain: "I am really, very bad at writing these durn stand-in questions? SEE!",
+    answers: ["Answer1", "Answer2", "RightAnswer", "Answer4"],
+    correctIndex: 2
+  },
+  {
+    questionMain: "Bananas are a great source of potassium. Shit, this is more of a fact than a question...",
+    answers: ["Sherlock?", "Answer2", "Answer3", "Answer4"],
+    correctIndex: 0
   }
 ];
 
 var questionIterator;
+
+// TODO: This is a temp value for testing change this later
+var answerTimeSec = 3;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
@@ -78,6 +91,6 @@ function nextQuestion() {
 $(document).ready(function () {
 
   nextQuestion();
-  questionIterator = setInterval(nextQuestion, 3000);
+  questionIterator = setInterval(nextQuestion, answerTimeSec * 1000);
 
 });
