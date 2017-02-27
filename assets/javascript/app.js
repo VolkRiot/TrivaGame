@@ -26,13 +26,13 @@ var questionsList = [
   }
 ];
 
-var questionIterator;
+var lastQuestion = false;
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 60;
+var answerTimeSec = 3;
 var timer = answerTimeSec;
 var countdownIterator;
-//var finalCountdown;
+var nextQTimer;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
@@ -84,23 +84,34 @@ function buildQuestion(questionObj) {
 
 function nextQuestion() {
 
-  clearInterval(countdownIterator);
-  randQuesObj = randomQuestion(questionsList);
-  buildQuestion(randQuesObj);
-  timer = answerTimeSec;
-  $('#header').html(timer);
-  countdownIterator = setInterval(countDown, 1000);
-
-  if (questionsList.length === 0){
-    clearInterval(questionIterator);
+  if(!lastQuestion) {
+    randQuesObj = randomQuestion(questionsList);
+    buildQuestion(randQuesObj);
+    clearTimeout(nextQTimer);
+    countDown();
   }
+
+  $('#header').html(timer);
+
+
 }
 
 function countDown() {
-  timer--;
-  $('#header').html(timer);
+
+  function timerRundown() {
+    timer--;
+    $('#header').html(timer);
+  }
+
+  timer = answerTimeSec;
+  nextQTimer = setTimeout(nextQuestion, timer * 1000);
+
+  clearInterval(countdownIterator);
+  countdownIterator = setInterval(timerRundown, 1000);
 
   if(questionsList.length === 0){
+    lastQuestion = true;
+    clearTimeout(nextQTimer);
 
     function finalCountdown() {
       clearInterval(countdownIterator);
@@ -114,7 +125,6 @@ function countDown() {
 $(document).ready(function () {
 
   nextQuestion();
-  questionIterator = setInterval(nextQuestion, answerTimeSec * 1000);
 
   $(".questions-container").on('click', '.answer-choices', function () {
 
