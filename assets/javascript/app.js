@@ -30,6 +30,8 @@ var questionIterator;
 
 // TODO: This is a temp value for testing change this later
 var answerTimeSec = 3;
+var timer = answerTimeSec;
+var countdownIterator;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
@@ -82,13 +84,23 @@ function nextQuestion() {
 
   randQuesObj = randomQuestion(questionsList)[0];
   buildQuestion(randQuesObj);
+  timer = answerTimeSec;
+  $('#header').html(timer);
 
   if (questionsList.length === 0){
     clearInterval(questionIterator);
+    clearInterval(countdownIterator);
   }
 }
 
+function countDown() {
+  timer--;
+  $('#header').html(timer);
+}
+
 $(document).ready(function () {
+
+  countdownIterator = setInterval(countDown, 1000);
 
   nextQuestion();
   questionIterator = setInterval(nextQuestion, answerTimeSec * 1000);
