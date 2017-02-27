@@ -19,12 +19,15 @@ function randomQuestion() {
 
 function buildAnswer(answer) {
 
-  var answerBox = $('<label class="checkbox">');
-  answerBox.append($('<input type="checkbox"/>'));
+  var answerBox = $('<label class="radio">');
+  var radioButton = $('<input type="radio" />');
+  radioButton.attr('name', 'inlineRadioOptions');
+  answerBox.append(radioButton);
+
   answerBox.append(answer);
 
   return answerBox;
-  
+
 }
 
 function buildQuestion() {
