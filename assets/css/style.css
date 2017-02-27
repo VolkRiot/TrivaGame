@@ -1,3 +1,12 @@
 #header{
     height: 20%;
 }
+
+#presentation-panel{
+    display: block;
+    z-index: 1;
+}
+
+#trivia-panel{
+    display: none;
+}

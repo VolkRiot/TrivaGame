@@ -29,7 +29,7 @@ var questionsList = [
 var lastQuestion = false;
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 60;
+var answerTimeSec = 15;
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
@@ -133,8 +133,13 @@ function stopTime() {
 
 $(document).ready(function () {
 
-  nextQuestion();
 
+  $('#start').on('click', function () {
+    $('#reaction-container').hide();
+    nextQuestion();
+    $('#trivia-panel').show();
+  });
+  
   $(".questions-container").on('click', '.answer-choices', function () {
 
 
