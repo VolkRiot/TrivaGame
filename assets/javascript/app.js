@@ -16,6 +16,8 @@ var questionsList = [
   }
 ];
 
+var questionIterator;
+
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
   
@@ -63,13 +65,19 @@ function buildQuestion(questionObj) {
   }
 }
 
+function nextQuestion() {
+
+  randQuesObj = randomQuestion(questionsList)[0];
+  buildQuestion(randQuesObj);
+
+  if (questionsList.length === 0){
+    clearInterval(questionIterator);
+  }
+}
 
 $(document).ready(function () {
 
-  randQuesObj = randomQuestion(questionsList)[0];
-
-  buildQuestion(randQuesObj);
-
-  
+  nextQuestion();
+  questionIterator = setInterval(nextQuestion, 3000);
 
 });
