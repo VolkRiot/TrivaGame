@@ -27,9 +27,14 @@ var questionsList = [
 ];
 
 var lastQuestion = false;
+var stats = {
+  correct: 0,
+  incorrect: 0,
+  unanswered: 0
+};
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 15;
+var answerTimeSec = 10;
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
@@ -131,23 +136,45 @@ function stopTime() {
   clearInterval(countdownIterator);
 }
 
+function togglePanels() {
+
+  if($('#trivia-panel').is(":visible")) {
+    $('#trivia-panel').hide();
+    $('#presentation-panel').show();
+  }else{
+    $('#presentation-panel').hide();
+    $('#trivia-panel').show();
+  }
+}
+
 $(document).ready(function () {
 
 
   $('#start').on('click', function () {
-    $('#reaction-container').hide();
+    $('#presentation-panel').hide();
     nextQuestion();
     $('#trivia-panel').show();
   });
-  
+
   $(".questions-container").on('click', '.answer-choices', function () {
 
 
+
     if($(this).attr('data-index') == currentQuestion.correctIndex){
+      // Result of correct response goes here!
+      stopTime();
+
+      // TODO: Build a function which assembles the content of a winning #reaction-container
+
+      // TODO: Toggle the panels from one to the other
+      togglePanels();
+      setTimeout(togglePanels, 3000);
       nextQuestion();
+
+    }else{
+      //Incorrect Response here
+
     }
-
-
 
 
   });
