@@ -1,28 +1,33 @@
 var questionsList = [
   {
-    questionMain: "This is a question?",
-    answers: ["Answer1", "Answer2", "RightAnswer", "Answer4"],
-    correctIndex: 2
+    questionMain: "What was Rick's favorite exhibit in Anatomy Park?",
+    answers: ["The Bone Train", "Bladder Falls", "Pirates of the Pancreas", "Spleen Mountain"],
+    correctIndex: 2,
+    img: "anatomyPark.png"
   },
   {
-    questionMain: "Here is another question? Possibly?",
-    answers: ["RightAnswer", "Answer2", "Answer3", "Answer4"],
-    correctIndex: 0
+    questionMain: "What does Snuffles want to be called now that he abandoned his slave name?",
+    answers: ["Snowball", "Whitefur", "Morty the Dog", "Morphius"],
+    correctIndex: 0,
+    img: "snuffles.jpg"
   },
   {
-    questionMain: "Ok, let's just pretend that these here are real questions. Ok?",
-    answers: ["Answer1", "Answer2", "Answer3", "RightAnswer"],
-    correctIndex: 3
+    questionMain: "Rick and Morty was based off an animated short originally titled what?",
+    answers: ["Wubalubadubdub", "Adventures of Morty and Doc", "Futurama", "the Real Adventures of Doc and Mharti"],
+    correctIndex: 3,
+    img: "originalAdventure.png"
   },
   {
-    questionMain: "I am really, very bad at writing these durn stand-in questions? SEE!",
-    answers: ["Answer1", "Answer2", "RightAnswer", "Answer4"],
-    correctIndex: 2
+    questionMain: "What does Rick tell the alien inhabitants of his 'micro-verse' this gesture mean?",
+    answers: ["Greetings!", "I bring you gifts", "Peace among worlds", "Fuck off"],
+    correctIndex: 2,
+    img: "alienGesture.png"
   },
   {
-    questionMain: "Bananas are a great source of potassium. Shit, this is more of a fact than a question...",
-    answers: ["Sherlock?", "Answer2", "Answer3", "Answer4"],
-    correctIndex: 0
+    questionMain: "What was the name of Rick and Morty's world-saving hit song?",
+    answers: ["Get Schwifty", "Spare da Earth", "Feel Good Inc.", "DoYaThing"],
+    correctIndex: 0,
+    img: "getSchwifty.jpg"
   }
 ];
 
@@ -34,11 +39,13 @@ var stats = {
 };
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 10;
+var answerTimeSec = 70;
+var panelShowTime = 3;
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
 var currentQuestion;
+var answered = false;
 
 function randomQuestion(quesList) {
   var randValue = Math.floor(Math.random() * quesList.length);
@@ -81,6 +88,7 @@ function buildQuestion(questionObj) {
   mainQuestion.html(questionObj.questionMain);
 
   $('#question-well').html(mainQuestion);
+  $('#question-image').attr('src', 'assets/images/' + questionObj.img);
   $('.questions-container').empty();
 
 
@@ -93,6 +101,8 @@ function buildQuestion(questionObj) {
 }
 
 function nextQuestion() {
+
+  answered = false;
 
   if(!lastQuestion) {
     currentQuestion = randomQuestion(questionsList);
@@ -152,36 +162,48 @@ function showPaneltoNewQuestion() {
   nextQuestion();
 }
 
+function buildIntermediatePanel() {
+
+  var image = $('<img class="img-responsive center-block">').attr('src', "assets/images/goodjob.gif");
+
+  $('#presentation-panel').html(image)
+}
+
 $(document).ready(function () {
 
 
   $('#start').on('click', function () {
     togglePanels();
+
+    $('#presentation-panel').empty();
+
     nextQuestion();
   });
 
   $(".questions-container").on('click', '.answer-choices', function () {
 
+    answered = true;
 
 
     if($(this).attr('data-index') == currentQuestion.correctIndex){
       // Result of correct response goes here!
-      stopTime();
+      stats.correct++;
 
       // TODO: Build a function which assembles the content of a winning #reaction-container
 
-      // TODO: Toggle the panels from one to the other
-      togglePanels();
-
-      // TODO: Package the call to the question along with the
-
-      setTimeout(showPaneltoNewQuestion, 3000);
 
     }else{
       //Incorrect Response here
+      stats.incorrect++;
+
+      // TODO: Build a function which assembles the content of a losing #reaction-container
 
     }
 
+    stopTime();
+    buildIntermediatePanel();
+    togglePanels();
+    setTimeout(showPaneltoNewQuestion, panelShowTime * 1000);
 
   });
 

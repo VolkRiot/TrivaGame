@@ -1,5 +1,5 @@
 #header{
-    height: 20%;
+    height: 5%;
 }
 
 #presentation-panel{
@@ -9,4 +9,8 @@
 
 #trivia-panel{
     display: none;
+}
+
+#question-image{
+    height: 40%;
 }
