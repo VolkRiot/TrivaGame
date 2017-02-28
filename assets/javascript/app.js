@@ -87,7 +87,7 @@ function buildQuestion(questionObj) {
   for(var i = 0; i < answersArray.length/2; i++){
 
     $('#question-box1').append(buildAnswer(questionObj.answers[i]));
-    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2]))
+    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2]));
 
   }
 }
@@ -147,13 +147,17 @@ function togglePanels() {
   }
 }
 
+function showPaneltoNewQuestion() {
+  togglePanels();
+  nextQuestion();
+}
+
 $(document).ready(function () {
 
 
   $('#start').on('click', function () {
-    $('#presentation-panel').hide();
+    togglePanels();
     nextQuestion();
-    $('#trivia-panel').show();
   });
 
   $(".questions-container").on('click', '.answer-choices', function () {
@@ -168,8 +172,10 @@ $(document).ready(function () {
 
       // TODO: Toggle the panels from one to the other
       togglePanels();
-      setTimeout(togglePanels, 3000);
-      nextQuestion();
+
+      // TODO: Package the call to the question along with the
+
+      setTimeout(showPaneltoNewQuestion, 3000);
 
     }else{
       //Incorrect Response here
