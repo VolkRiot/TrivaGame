@@ -1,5 +1,9 @@
+body{
+    background-image: url("../images/backgrounds/poptarts.jpg");
+}
+
 #header{
-    height: 5%;
+    height: 8%;
 }
 
 #presentation-panel{
@@ -13,4 +17,9 @@
 
 #question-image{
     height: 40%;
+}
+
+div#questions-panel {
+    height: 11%;
+    margin-top: 6%;
 }

@@ -13,7 +13,7 @@ var questionsList = [
   },
   {
     questionMain: "Rick and Morty was based off an animated short originally titled what?",
-    answers: ["Wubalubadubdub", "Adventures of Morty and Doc", "Futurama", "the Real Adventures of Doc and Mharti"],
+    answers: ["Wubalubadubdub", "Adventures of Morty and Doc", "Futurama", "The Real Adventures of Doc and Mharti"],
     correctIndex: 3,
     img: "originalAdventure.png"
   },
@@ -83,7 +83,7 @@ function buildAnswer(answer) {
 
 function buildQuestion(questionObj) {
   var answersArray = randomizeArray(questionObj.answers);
-  var mainQuestion = $("<p>");
+  var mainQuestion = $("<p class='h5 main-question'>");
 
   mainQuestion.html(questionObj.questionMain);
 
