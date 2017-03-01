@@ -3,31 +3,81 @@ var questionsList = [
     questionMain: "What was Rick's favorite exhibit in Anatomy Park?",
     answers: ["The Bone Train", "Bladder Falls", "Pirates of the Pancreas", "Spleen Mountain"],
     correctIndex: 2,
-    img: "anatomyPark.png"
+    img: "anatomyPark.png",
+    reward: "piratesrapey.gif",
+    panelShowTime: 5
   },
   {
     questionMain: "What does Snuffles want to be called now that he abandoned his slave name?",
     answers: ["Snowball", "Whitefur", "Morty the Dog", "Morphius"],
     correctIndex: 0,
-    img: "snuffles.jpg"
+    img: "slavename.gif",
+    reward: "snowball.gif",
+    panelShowTime: 4
   },
   {
     questionMain: "Rick and Morty was based off an animated short originally titled what?",
     answers: ["Wubalubadubdub", "Adventures of Morty and Doc", "Futurama", "The Real Adventures of Doc and Mharti"],
     correctIndex: 3,
-    img: "originalAdventure.png"
+    img: "originalAdventure.png",
+    reward: "yes.gif",
+    panelShowTime: 1
   },
   {
     questionMain: "What does Rick tell the alien inhabitants of his 'micro-verse' this gesture mean?",
     answers: ["Greetings!", "I bring you gifts", "Peace among worlds", "Fuck off"],
     correctIndex: 2,
-    img: "alienGesture.png"
+    img: "aliengesture.gif",
+    reward: "peaceamongworlds.gif",
+    panelShowTime: 3
   },
   {
     questionMain: "What was the name of Rick and Morty's world-saving hit song?",
     answers: ["Get Schwifty", "Spare da Earth", "Feel Good Inc.", "DoYaThing"],
     correctIndex: 0,
-    img: "getSchwifty.jpg"
+    img: "getSchwifty.jpg",
+    reward: "goodjob.gif",
+    panelShowTime: 3
+  },
+  {
+    questionMain: "What is the purpose of this little robot created by Rick at the breakfast table?",
+    answers: ["Spy on the Neighbors", "Pass the butter", "Pour some OJ", "Bend girders"],
+    correctIndex: 1,
+    img: "littlerobot.gif",
+    reward: "passbutter.gif",
+    panelShowTime: 11
+  },
+  {
+    questionMain: "What did Jerry ask the Mr. Meeseeks to help him accomplish?",
+    answers: ["Become popular", "Become rich", "Take two strokes off golf game", "Get promoted at work"],
+    correctIndex: 2,
+    img: "meeseeks.gif",
+    reward: "sucksmeeseeks.gif",
+    panelShowTime: 3
+  },
+  {
+    questionMain: "What is the most popular virtual reality game at Blips and Chitz?",
+    answers: ["Roy", "Star Killer", "Earth Game", "Grand Theft Spaceship"],
+    correctIndex: 0,
+    img: "blipsnchitz.gif",
+    reward: "topgame.gif",
+    panelShowTime: 3
+  },
+  {
+    questionMain: "Morty accidentally becomes the father of a violent warmongering breed of alien from what planet?",
+    answers: ["Gazorpazorp", "Squanchy", "Flim-flam", "Pluto"],
+    correctIndex: 0,
+    img: "destruction.gif",
+    reward: "fatherlyadvice.gif",
+    panelShowTime: 4
+  },
+  {
+    questionMain: "After barely escaping his knives, Rick and Morty incept the nightmare of monster Scary Terry and befriend him by offering him what?",
+    answers: ["Pair of pants", "Advice on his marriage", "Hugs", "Money"],
+    correctIndex: 0,
+    img: "scaryterryrun.gif",
+    reward: "awwbitch.gif",
+    panelShowTime: 2
   }
 ];
 
@@ -40,7 +90,7 @@ var stats = {
 
 // TODO: This is a temp value for testing change this later
 var answerTimeSec = 70;
-var panelShowTime = 3;
+//var panelShowTime = 3;
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
@@ -164,7 +214,7 @@ function showPaneltoNewQuestion() {
 
 function buildIntermediatePanel() {
 
-  var image = $('<img class="img-responsive center-block">').attr('src', "assets/images/goodjob.gif");
+  var image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + currentQuestion.reward);
 
   $('#presentation-panel').html(image)
 }
@@ -203,7 +253,7 @@ $(document).ready(function () {
     stopTime();
     buildIntermediatePanel();
     togglePanels();
-    setTimeout(showPaneltoNewQuestion, panelShowTime * 1000);
+    setTimeout(showPaneltoNewQuestion, currentQuestion.panelShowTime * 1000);
 
   });
 
