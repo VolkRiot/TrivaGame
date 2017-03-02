@@ -20,6 +20,11 @@ body{
 }
 
 div#questions-panel {
-    height: 11%;
+    height: 15%;
     margin-top: 6%;
+}
+
+.main-question{
+    font-family: Helvetica, sans-serif;
+    font-size: larger;
 }

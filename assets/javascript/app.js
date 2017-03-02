@@ -89,8 +89,8 @@ var stats = {
 };
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 70;
-//var panelShowTime = 3;
+var answerTimeSec = 3;
+var failGifs = ["badperson.gif", "donthate.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
@@ -152,6 +152,9 @@ function buildQuestion(questionObj) {
 
 function nextQuestion() {
 
+  if(answered !== true){
+    stats.unanswered++;
+  }
   answered = false;
 
   if(!lastQuestion) {
@@ -159,6 +162,8 @@ function nextQuestion() {
     buildQuestion(currentQuestion);
     clearTimeout(nextQTimer);
     countDown();
+  }else{
+    // TODO: Display a final panel with the total score
   }
 
   $('#header').html(timer);
@@ -212,9 +217,17 @@ function showPaneltoNewQuestion() {
   nextQuestion();
 }
 
-function buildIntermediatePanel() {
+function buildIntermediatePanel(correct) {
 
-  var image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + currentQuestion.reward);
+  var image;
+
+  if(correct){
+    image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + currentQuestion.reward);
+  }else{
+    image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + failGifs[Math.floor(Math.random() * failGifs.length)]);
+  }
+
+
 
   $('#presentation-panel').html(image)
 }
@@ -238,6 +251,7 @@ $(document).ready(function () {
     if($(this).attr('data-index') == currentQuestion.correctIndex){
       // Result of correct response goes here!
       stats.correct++;
+      buildIntermediatePanel(true);
 
       // TODO: Build a function which assembles the content of a winning #reaction-container
 
@@ -247,11 +261,10 @@ $(document).ready(function () {
       stats.incorrect++;
 
       // TODO: Build a function which assembles the content of a losing #reaction-container
-
+      buildIntermediatePanel();
     }
 
     stopTime();
-    buildIntermediatePanel();
     togglePanels();
     setTimeout(showPaneltoNewQuestion, currentQuestion.panelShowTime * 1000);
 
