@@ -1,4 +1,4 @@
-var questionsList = [
+var masterQuestionsList = [
   {
     questionMain: "What was Rick's favorite exhibit in Anatomy Park?",
     answers: ["The Bone Train", "Bladder Falls", "Pirates of the Pancreas", "Spleen Mountain"],
@@ -88,8 +88,10 @@ var stats = {
   unanswered: 0
 };
 
-// TODO: This is a temp value for testing change this later
-var answerTimeSec = 7;
+var questionsList = $.map(masterQuestionsList, function (obj) {
+  return $.extend(true, {}, obj);});
+
+var answerTimeSec = 2;
 var failGifs = ["badperson.gif", "donthate.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
@@ -230,6 +232,21 @@ function buildIntermediatePanel(correct) {
   $('#presentation-panel').html(image)
 }
 
+function buildFinalPanel() {
+
+  var $finalPanel = $('#presentation-panel');
+  $finalPanel.empty();
+  $finalPanel.addClass('text-center');
+  $finalPanel.append("<p class='h4'>Final Score");
+  $finalPanel.append("<p class='h4'>Correct: " + stats.correct);
+  $finalPanel.append("<p class='h4'>Incorrect: " + stats.incorrect);
+  $finalPanel.append("<p class='h4'>Unanswered: " + stats.unanswered);
+  $finalPanel.append('<button class="btn btn-warning" id="restart-button">Restart</button>');
+
+  $('#trivia-panel').hide();
+  $finalPanel.show()
+}
+
 $(document).ready(function () {
 
 
@@ -252,14 +269,10 @@ $(document).ready(function () {
       stats.correct++;
       buildIntermediatePanel(true);
 
-      // TODO: Build a function which assembles the content of a winning #reaction-container
-
 
     }else{
       //Incorrect Response here
       stats.incorrect++;
-
-      // TODO: Build a function which assembles the content of a losing #reaction-container
       buildIntermediatePanel();
     }
 
@@ -268,9 +281,25 @@ $(document).ready(function () {
 
     if(!lastQuestion){
       setTimeout(showPaneltoNewQuestion, currentQuestion.panelShowTime * 1000);
+    }else{
+      setTimeout(buildFinalPanel, currentQuestion.panelShowTime * 1000);
     }
 
+  });
 
+  $('#presentation-panel').on('click', "#restart-button", function () {
+
+      for(var item in stats){
+        stats[item] = 0;
+      }
+      lastQuestion = false;
+
+      questionsList = $.map(masterQuestionsList, function (obj) {
+      return $.extend(true, {}, obj);
+      });
+
+      togglePanels();
+      nextQuestion();
   });
 
 });
