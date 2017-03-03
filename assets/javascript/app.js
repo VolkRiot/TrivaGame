@@ -89,7 +89,7 @@ var stats = {
 };
 
 // TODO: This is a temp value for testing change this later
-var answerTimeSec = 3;
+var answerTimeSec = 7;
 var failGifs = ["badperson.gif", "donthate.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
@@ -226,9 +226,7 @@ function buildIntermediatePanel(correct) {
   }else{
     image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + failGifs[Math.floor(Math.random() * failGifs.length)]);
   }
-
-
-
+  
   $('#presentation-panel').html(image)
 }
 
@@ -246,7 +244,6 @@ $(document).ready(function () {
   $(".questions-container").on('click', '.answer-choices', function () {
 
     answered = true;
-
 
     if($(this).attr('data-index') == currentQuestion.correctIndex){
       // Result of correct response goes here!
