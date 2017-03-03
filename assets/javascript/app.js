@@ -238,6 +238,8 @@ $(document).ready(function () {
 
     $('#presentation-panel').empty();
 
+    // Initial call to build first question.
+    answered = true;
     nextQuestion();
   });
 
@@ -263,7 +265,11 @@ $(document).ready(function () {
 
     stopTime();
     togglePanels();
-    setTimeout(showPaneltoNewQuestion, currentQuestion.panelShowTime * 1000);
+
+    if(!lastQuestion){
+      setTimeout(showPaneltoNewQuestion, currentQuestion.panelShowTime * 1000);
+    }
+
 
   });
 
