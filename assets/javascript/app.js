@@ -91,7 +91,7 @@ var stats = {
 var questionsList = $.map(masterQuestionsList, function (obj) {
   return $.extend(true, {}, obj);});
 
-var answerTimeSec = 2;
+var answerTimeSec = 8;
 var failGifs = ["badperson.gif", "donthate.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
