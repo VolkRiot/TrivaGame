@@ -92,7 +92,7 @@ var questionsList = $.map(masterQuestionsList, function (obj) {
   return $.extend(true, {}, obj);});
 
 var answerTimeSec = 8;
-var failGifs = ["badperson.gif", "donthate.gif"];
+var failGifs = ["badperson.gif", "donthate.gif", "donttrip.gif", "thinkforyourself.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
 var nextQTimer;
@@ -221,15 +221,20 @@ function showPaneltoNewQuestion() {
 
 function buildIntermediatePanel(correct) {
 
+  var message = $('<p class="h4">');
   var image;
 
   if(correct){
     image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + currentQuestion.reward);
+    message.text("Correct!");
   }else{
     image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + failGifs[Math.floor(Math.random() * failGifs.length)]);
+    message.text("Wrong!");
   }
-  
-  $('#presentation-panel').html(image)
+
+  $('#presentation-panel').empty();
+  $('#presentation-panel').append(message);
+  $('#presentation-panel').append(image)
 }
 
 function buildFinalPanel() {
