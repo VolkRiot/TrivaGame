@@ -45,7 +45,7 @@ var masterQuestionsList = [
     correctIndex: 1,
     img: "littlerobot.gif",
     reward: "passbutter.gif",
-    panelShowTime: 11
+    panelShowTime: 5
   },
   {
     questionMain: "What did Jerry ask the Mr. Meeseeks to help him accomplish?",
