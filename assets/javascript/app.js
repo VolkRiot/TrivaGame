@@ -91,7 +91,7 @@ var stats = {
 var questionsList = $.map(masterQuestionsList, function (obj) {
   return $.extend(true, {}, obj);});
 
-var answerTimeSec = 8;
+var answerTimeSec = 9;
 var failGifs = ["badperson.gif", "donthate.gif", "donttrip.gif", "thinkforyourself.gif"];
 var timer = answerTimeSec;
 var countdownIterator;
@@ -221,20 +221,22 @@ function showPaneltoNewQuestion() {
 
 function buildIntermediatePanel(correct) {
 
-  var message = $('<p class="h4">');
+  var $presentPanel = $('#presentation-panel');
   var image;
 
+  $presentPanel.empty();
+
   if(correct){
+    $presentPanel.attr('class', "panel panel-success text-center");
+    $presentPanel.append($('<div class="panel-heading">').append($('<h2 class="panel-title">').text("Right!")));
     image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + currentQuestion.reward);
-    message.text("Correct!");
   }else{
+    $presentPanel.attr('class', "panel panel-danger text-center");
+    $presentPanel.append($('<div class="panel-heading">').append($('<h2 class="panel-title">').text("Wrong!")));
     image = $('<img class="img-responsive center-block">').attr('src', "assets/images/" + failGifs[Math.floor(Math.random() * failGifs.length)]);
-    message.text("Wrong!");
   }
 
-  $('#presentation-panel').empty();
-  $('#presentation-panel').append(message);
-  $('#presentation-panel').append(image)
+  $presentPanel.append(image)
 }
 
 function buildFinalPanel() {
@@ -258,7 +260,9 @@ $(document).ready(function () {
   $('#start').on('click', function () {
     togglePanels();
 
-    $('#presentation-panel').empty();
+    var $presentPanel = $('#presentation-panel');
+    $presentPanel.empty();
+    $presentPanel.css('border-radius', 0);
 
     // Initial call to build first question.
     answered = true;
