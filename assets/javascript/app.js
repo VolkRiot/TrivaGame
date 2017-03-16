@@ -88,8 +88,12 @@ var stats = {
   unanswered: 0
 };
 
-var questionsList = $.map(masterQuestionsList, function (obj) {
-  return $.extend(true, {}, obj);});
+// var questionsList = $.map(masterQuestionsList, function (obj) {
+  // you don't actually need to use extend here since you'll be returning a copy of the object anyways
+  // and since you don't need to perform any manipulations on the object, you can simply use slice
+  // return $.extend(true, {}, obj);
+// });
+var questionsList = masterQuestionsList.slice()
 
 var answerTimeSec = 9;
 var failGifs = ["badperson.gif", "donthate.gif", "donttrip.gif", "thinkforyourself.gif"];
@@ -107,15 +111,17 @@ function randomQuestion(quesList) {
 }
 
 function randomizeArray(array) {
-
+  // calling `.slice()` on an array without any arguments will return a copy of the array
+  var arrayClone = array.slice()
   var randArray = [];
 
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    randArray.push(array[j]);
+  for (var i = array.length; i > 0; i--) {
+    var j = Math.floor(Math.random() * i);
+    // using the same `.splice` call that you used above to remove the random element
+    randArray.push( arrayClone.splice(j, 1)[0] );
   }
-  return randArray;
 
+  return randArray;
 }
 
 function buildAnswer(answer) {
@@ -124,7 +130,7 @@ function buildAnswer(answer) {
   var radioButton = $('<input type="radio" />');
   radioButton.attr('name', 'inlineRadioOptions');
   radioButton.attr('class', 'answer-choices');
-  radioButton.attr('data-index', currentQuestion.answers.indexOf(answer));
+  radioButton.attr('data-text', answer);
   answerBox.append(radioButton);
 
   answerBox.append(answer);
@@ -145,9 +151,9 @@ function buildQuestion(questionObj) {
 
 
   for(var i = 0; i < answersArray.length/2; i++){
-
-    $('#question-box1').append(buildAnswer(questionObj.answers[i]));
-    $('#question-box2').append(buildAnswer(questionObj.answers[i + 2]));
+    // this way you are appending random answers instead of the questionObj.answers
+    $('#question-box1').append(buildAnswer(answersArray[i]));
+    $('#question-box2').append(buildAnswer(answersArray[i + 2]));
 
   }
 }
@@ -273,7 +279,8 @@ $(document).ready(function () {
 
     answered = true;
 
-    if($(this).attr('data-index') == currentQuestion.correctIndex){
+    // store it as text so it's not dependent upond the index which will now be random
+    if($(this).attr('data-text') === currentQuestion.answers[currentQuestion.correctIndex]){
       // Result of correct response goes here!
       stats.correct++;
       buildIntermediatePanel(true);
@@ -303,9 +310,7 @@ $(document).ready(function () {
       }
       lastQuestion = false;
 
-      questionsList = $.map(masterQuestionsList, function (obj) {
-      return $.extend(true, {}, obj);
-      });
+      questionsList = masterQuestionsList.slice()
 
       togglePanels();
       nextQuestion();
